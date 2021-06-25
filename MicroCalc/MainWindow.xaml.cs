@@ -56,7 +56,9 @@ namespace MicroCalc
                     percents[i] = float.Parse(perc[i]);
                     fullPercent += float.Parse(perc[i]);
                     
-                    tbDetails.Text += $"{i + 1} + {loan * (1 + fullPercent / 100) - prevDay} = {loan * (1 + fullPercent / 100)}\n";
+                    tbDetails.Text += $"{i + 1} + " +
+                        $"{loan * (1 + fullPercent / 100) - prevDay} =" +
+                        $" {loan * (1 + fullPercent / 100)}\n";
                     prevDay = loan * (1 + fullPercent / 100);
                 }
 
@@ -89,7 +91,8 @@ namespace MicroCalc
                 OpenFileDialog ofDialog = new OpenFileDialog();
                 if (ofDialog.ShowDialog() == true)
                 {
-                    string[] temp = File.ReadAllText(ofDialog.FileName).Split('\n');
+                    string[] temp = 
+                        File.ReadAllText(ofDialog.FileName).Split('\n');
                     tbLoan.Text = temp[0];
                     tbDays.Text = temp[1];
                     tbPercents.Text = temp[2];
