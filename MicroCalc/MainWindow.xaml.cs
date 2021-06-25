@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace MicroCalc
 {
@@ -28,7 +30,7 @@ namespace MicroCalc
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btnCalculate_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -47,6 +49,10 @@ namespace MicroCalc
                 var perc = tbPercents.Text.Split(' ');
                 for (int i = 0; i < daysCount; ++i)
                 {
+                    if (float.Parse(perc[i]) > 1)
+                    {
+                        throw new Exception();
+                    }
                     percents[i] = float.Parse(perc[i]);
                     fullPercent += float.Parse(perc[i]);
                     tbDetails.Text += $"{i + 1} - {loan * (1 + fullPercent / 100)}\n";
@@ -60,6 +66,35 @@ namespace MicroCalc
             {
                 MessageBox.Show("Неверные данные");
             }
+            
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sfDialog = new SaveFileDialog();
+            sfDialog.Filter = "Text file (*.txt)|*.txt";
+            if (sfDialog.ShowDialog() == true)
+                File.WriteAllText(sfDialog.FileName, tbDetails.Text);
+        }
+
+        private void btnLoad_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                OpenFileDialog ofDialog = new OpenFileDialog();
+                if (ofDialog.ShowDialog() == true)
+                {
+                    string[] temp = File.ReadAllText(ofDialog.FileName).Split('\n');
+                    tbLoan.Text = temp[0];
+                    tbDays.Text = temp[1];
+                    tbPercents.Text = temp[2];
+                }
+            }
+            catch 
+            {
+                MessageBox.Show("Неверный файл");
+            }
+                
         }
     }
 }
