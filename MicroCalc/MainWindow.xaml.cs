@@ -45,7 +45,7 @@ namespace MicroCalc
                 percents = new float[daysCount];
                 float fullPercent = 0;
                 tbDetails.Text = "";
-
+                float prevDay=loan;
                 var perc = tbPercents.Text.Split(' ');
                 for (int i = 0; i < daysCount; ++i)
                 {
@@ -55,7 +55,9 @@ namespace MicroCalc
                     }
                     percents[i] = float.Parse(perc[i]);
                     fullPercent += float.Parse(perc[i]);
-                    tbDetails.Text += $"{i + 1} - {loan * (1 + fullPercent / 100)}\n";
+                    
+                    tbDetails.Text += $"{i + 1} + {loan * (1 + fullPercent / 100) - prevDay} = {loan * (1 + fullPercent / 100)}\n";
+                    prevDay = loan * (1 + fullPercent / 100);
                 }
 
                 tbItogSum.Text = $"{loan * (1 + fullPercent / 100)}";
