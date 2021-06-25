@@ -30,32 +30,35 @@ namespace MicroCalc
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            loan = int.Parse(tbLoan.Text);
-            daysCount = int.Parse(tbDays.Text);
-            percents = new float[daysCount];
-            float fullPercent = 0;
-
-            tbDetails.Text = "";
-            var perc = tbPercents.Text.Split(' ');
-            for (int i = 0; i < daysCount; ++i)
+            try
             {
-                percents[i] = float.Parse(perc[i]);
-                fullPercent += float.Parse(perc[i]);
-                tbDetails.Text += $"{i+1} - {loan * (1 + fullPercent / 100)}\n";
+                loan = int.Parse(tbLoan.Text);
+                daysCount = int.Parse(tbDays.Text);
+
+                if (daysCount > 365)
+                {
+                    throw new Exception();
+                }
+
+                percents = new float[daysCount];
+                float fullPercent = 0;
+                tbDetails.Text = "";
+
+                var perc = tbPercents.Text.Split(' ');
+                for (int i = 0; i < daysCount; ++i)
+                {
+                    percents[i] = float.Parse(perc[i]);
+                    fullPercent += float.Parse(perc[i]);
+                    tbDetails.Text += $"{i + 1} - {loan * (1 + fullPercent / 100)}\n";
+                }
+
+                tbItogSum.Text = $"{loan * (1 + fullPercent / 100)}";
+                tbOverpay.Text = $"{fullPercent / 100 * loan}";
+                tbEffectRate.Text = $"{fullPercent / daysCount}";
             }
-
-            tbItogSum.Text = $"{loan * (1 + fullPercent / 100)}";
-            tbOverpay.Text = $"{fullPercent / 100 * loan}";
-            tbEffectRate.Text = $"{fullPercent / daysCount}";
-            
-
-        }
-
-        private void tbDays_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (int.Parse(tbDays.Text) > 365)
+            catch
             {
-                lblDays.Foreground = Brushes.Red;
+                MessageBox.Show("Неверные данные");
             }
         }
     }
