@@ -25,8 +25,6 @@ namespace MicroCalc
         float[] percents;
         public MainWindow()
         {
-            int loan = 0;
-            int daysCount = 0;
             InitializeComponent();
         }
 
@@ -35,16 +33,30 @@ namespace MicroCalc
             loan = int.Parse(tbLoan.Text);
             daysCount = int.Parse(tbDays.Text);
             percents = new float[daysCount];
+            float fullPercent = 0;
 
-
+            tbDetails.Text = "";
             var perc = tbPercents.Text.Split(' ');
             for (int i = 0; i < daysCount; ++i)
             {
-                percents[i] = int.Parse(perc[i]) / 10;
+                percents[i] = float.Parse(perc[i]);
+                fullPercent += float.Parse(perc[i]);
+                tbDetails.Text += $"{i+1} - {loan * (1 + fullPercent / 100)}\n";
             }
 
-            tbItogSum.Text = "grgr \n gg";
+            tbItogSum.Text = $"{loan * (1 + fullPercent / 100)}";
+            tbOverpay.Text = $"{fullPercent / 100 * loan}";
+            tbEffectRate.Text = $"{fullPercent / daysCount}";
+            
 
+        }
+
+        private void tbDays_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (int.Parse(tbDays.Text) > 365)
+            {
+                lblDays.Foreground = Brushes.Red;
+            }
         }
     }
 }
