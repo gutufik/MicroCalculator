@@ -74,7 +74,10 @@ namespace MicroCalc
             SaveFileDialog sfDialog = new SaveFileDialog();
             sfDialog.Filter = "Text file (*.txt)|*.txt";
             if (sfDialog.ShowDialog() == true)
-                File.WriteAllText(sfDialog.FileName, tbDetails.Text);
+                File.WriteAllText(sfDialog.FileName, $"{tbDetails.Text}" +
+                    $"Полная выплата {tbItogSum.Text}\n" +
+                    $"Переплата {tbOverpay.Text}\n" +
+                    $"Эффективная ставка {tbEffectRate.Text}");
         }
 
         private void btnLoad_Click(object sender, RoutedEventArgs e)
