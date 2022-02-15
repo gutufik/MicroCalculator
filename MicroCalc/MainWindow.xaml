@@ -5,25 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MicroCalc"
         mc:Ignorable="d"
-        Title="Calculator" Height="450" Width="614.386">
-    <Grid Margin="0,0,2,10">
-        <TextBox x:Name="tbLoan" HorizontalAlignment="Left" Height="23" Margin="77,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="tbPercents" HorizontalAlignment="Left" Height="23" Margin="77,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="495"/>
-        <TextBox x:Name="tbDays" HorizontalAlignment="Left" Height="23" Margin="252,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Сумма" HorizontalAlignment="Left" Margin="87,32,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="lblDays" Content="Количество дней" HorizontalAlignment="Left" Margin="252,32,0,0" VerticalAlignment="Top" Height="33" Width="122"/>
-        <Label Content="Проценты" HorizontalAlignment="Left" Margin="111,108,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="btnCalculate" Content="Рассчитать" HorizontalAlignment="Left" Height="47" Margin="140,178,0,0" VerticalAlignment="Top" Width="76" Click="btnCalculate_Click"/>
-        <TextBox x:Name="tbItogSum" HorizontalAlignment="Left" Height="23" Margin="111,260,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="tbOverpay" HorizontalAlignment="Left" Height="23" Margin="269,260,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="tbEffectRate" HorizontalAlignment="Left" Height="23" Margin="412,260,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Полная выплата" HorizontalAlignment="Left" Margin="111,234,0,0" VerticalAlignment="Top" RenderTransformOrigin="4.387,-0.469"/>
-        <Label Content="Переплата" HorizontalAlignment="Left" Margin="269,234,0,0" VerticalAlignment="Top"/>
-        <Label Content="Эффективная ставка" HorizontalAlignment="Left" Margin="412,234,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="tbDetails" HorizontalAlignment="Left" Height="76" Margin="111,321,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180"/>
-        <Label Content="Детелизация" HorizontalAlignment="Left" Margin="140,295,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="btnLoad" Content="Загрузить" HorizontalAlignment="Left" Margin="122,10,0,0" VerticalAlignment="Top" Width="75" Click="btnLoad_Click"/>
-        <Button x:Name="btnSave" Content="Сохранить" HorizontalAlignment="Left" Margin="314,10,0,0" VerticalAlignment="Top" Width="75" Click="btnSave_Click"/>
+        Title="Calculator" Height="600" Width="650">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.1*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0.1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
 
+        <Button x:Name="btnLoad" Content="Load" Grid.Row="1" Grid.Column="1" Click="btnLoad_Click"/>
+        <Button x:Name="btnSave" Content="Save" Grid.Row="1" Grid.Column="3" Click="btnSave_Click"/>
+
+        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="1">
+            <TextBlock Text="Sum"/>
+            <TextBox x:Name="tbLoan"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="3">
+            <TextBlock Text="Days"/>
+            <TextBox x:Name="tbDays"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.ColumnSpan="5">
+            <TextBlock Text="Percents"/>
+            <TextBox x:Name="tbPercents"/>
+        </StackPanel>
+
+        <Button x:Name="btnCalculate" Content="Calc" Grid.Row="4" Grid.Column="1" Click="btnCalculate_Click"/>
+
+        <StackPanel Orientation="Vertical" Grid.Row="5" Grid.Column="1">
+            <TextBlock Text="Full pay"/>
+            <TextBox x:Name="tbItogSum" IsReadOnly="True"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="5" Grid.Column="2">
+            <TextBlock Text="Overpay"/>
+            <TextBox x:Name="tbOverpay" IsReadOnly="True"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="5" Grid.Column="3">
+            <TextBlock Text="Effect rate"/>
+            <TextBox x:Name="tbEffectRate" IsReadOnly="True"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Grid.Row="6" Grid.ColumnSpan="5">
+            <TextBlock Text="Details"/>
+            <TextBox x:Name="tbDetails" IsReadOnly="True" Height="100" VerticalScrollBarVisibility="Visible"/>
+        </StackPanel>
     </Grid>
 </Window>
