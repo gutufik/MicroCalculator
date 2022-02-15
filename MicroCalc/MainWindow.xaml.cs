@@ -22,9 +22,8 @@ namespace MicroCalc
     /// </summary>
     public partial class MainWindow : Window
     {
-        int loan;
+
         int daysCount;
-        float[] percents;
         public MainWindow()
         {
             InitializeComponent();
@@ -34,41 +33,44 @@ namespace MicroCalc
         {
             try
             {
-                loan = int.Parse(tbLoan.Text);
+                double loan = double.Parse(tbLoan.Text);
+                double firstDay = loan;
                 daysCount = int.Parse(tbDays.Text);
 
                 if (daysCount > 365)
                 {
-                    throw new Exception();
+                    throw new Exception("Count days > 365");
                 }
 
-                percents = new float[daysCount];
-                float fullPercent = 0;
-                tbDetails.Text = "";
-                float prevDay=loan;
-                var perc = tbPercents.Text.Split(' ');
-                for (int i = 0; i < daysCount; ++i)
+                double fullPercent = 0;
+                string details = "";
+                double prevDay = loan;
+                var percents = tbPercents.Text.Split(' ');
+
+                int today = 1;
+                foreach (var percent in percents)
                 {
-                    if (float.Parse(perc[i]) > 1)
+                    if (double.Parse(percent) > 1)
                     {
-                        throw new Exception();
+                        throw new Exception("Percent > 1");
                     }
-                    percents[i] = float.Parse(perc[i]);
-                    fullPercent += float.Parse(perc[i]);
-                    
-                    tbDetails.Text += $"{i + 1} + " +
-                        $"{loan * (1 + fullPercent / 100) - prevDay} =" +
-                        $" {loan * (1 + fullPercent / 100)}\n";
-                    prevDay = loan * (1 + fullPercent / 100);
+                    fullPercent += double.Parse(percent);
+                    details += $"Day {today++} : " +
+                        $"{loan * (1 + double.Parse(percent) / 100) - prevDay} = " +
+                        $"{loan * (1 + double.Parse(percent) / 100)}\n";
+                    prevDay = loan * (1 + double.Parse(percent) / 100);
+                    loan = prevDay;
                 }
 
-                tbItogSum.Text = $"{loan * (1 + fullPercent / 100)}";
-                tbOverpay.Text = $"{fullPercent / 100 * loan}";
+                tbItogSum.Text = $"{firstDay + loan - firstDay}";
+                tbOverpay.Text = $"{loan - firstDay}";
                 tbEffectRate.Text = $"{fullPercent / daysCount}";
+
+                tbDetails.Text = details;
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Неверные данные");
+                MessageBox.Show(ex.Message);
             }
             
         }
@@ -93,8 +95,8 @@ namespace MicroCalc
                 {
                     string[] temp = 
                         File.ReadAllText(ofDialog.FileName).Split('\n');
-                    tbLoan.Text = temp[0];
-                    tbDays.Text = temp[1];
+                    tbLoan.Text = temp[0].Trim();
+                    tbDays.Text = temp[1].Trim();
                     tbPercents.Text = temp[2];
                 }
             }
